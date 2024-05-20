@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: 'test_db'
+      MYSQL_USER: 'dev'
+      MYSQL_PASSWORD: 'Ch16donbosco'
+      MYSQL_ROOT_PASSWORD: 'Ch16donbosco'
+    ports:
+      - '3306:3306'
+
+  web:
+    image: upc_bibliotheque
+    build: .
+    command: /bin/bash -c "sleep 30 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db

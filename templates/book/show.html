@@ -1,0 +1,27 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Détails du livre {{book.title}} {% endblock %}
+
+{% block content %}
+<div class="col-md-6 mx-auto">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Détails du livre {{book.title}}</h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="title">Titre du livre</label>
+                <input type="text" class="form-control" id="title" value="{{ book.title }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantité</label>
+                <input type="text" class="form-control" id="quantity" value="{{ book.quantity }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="author">Auteur</label>
+                <input type="text" class="form-control" id="author" value="{{ book.author.name }}" readonly>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

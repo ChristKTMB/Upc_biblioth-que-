@@ -1,0 +1,45 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Liste des Auteurs {% endblock %}
+
+{% block content %}
+{% include 'components/add_author_modal.html' %}
+
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        <div class="text-right mx-4">
+            <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#addBookModal">
+                +
+            </button>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Nom de l'auteur</th>
+                    <th style="width: 40px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for author in authors %}
+                <tr>
+                    <td>{{ author.id }}</td>
+                    <td>{{ author.name }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url 'edit_author' author.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'delete_author' author.id %}" class="btn btn-danger" onclick="return confirm('Etes-vous sur de vouloir supprimer l\'auteur ?')"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+{% endblock %}

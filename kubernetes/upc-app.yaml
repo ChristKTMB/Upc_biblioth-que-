@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upc-app-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upc-app
+  template:
+    metadata:
+      labels:
+        app: upc-app
+    spec:
+      containers:
+      - name: upc-app
+        image: christktmb/upc_bibliotheque:1.1
+        ports:
+        - containerPort: 8000
+        env:
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: upc-bibliotheque-database
+                key: MYSQL_DATABASE
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: upc-bibliotheque-database
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: upc-bibliotheque-database
+                key: MYSQL_PASSWORD
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: DB_PORT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: upc-bibliotheque-svc
+spec:
+  selector:
+    app: upc-app
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: NodePort

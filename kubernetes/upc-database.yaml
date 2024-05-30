@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upc-database-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upc-database
+  template:
+    metadata:
+      labels:
+        app: upc-database
+    spec:
+      containers:
+      - name: mysql-upc
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: upc-bibliotheque-database
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: upc-bibliotheque-database
+              key: MYSQL_DATABASE
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: upc-bibliotheque-database
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: upc-bibliotheque-database
+              key: MYSQL_PASSWORD
+        volumeMounts:
+        - name: mysql-persistent-storage  # Nom du volume persistant
+          mountPath: /var/lib/mysql       # Chemin dans le conteneur où le volume sera monté
+      volumes:
+      - name: mysql-persistent-storage    # Nom du volume persistant
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim       # Nom de la revendication du volume persistant
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: upc-database-svc
+spec:
+  selector:
+    app: upc-database
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306

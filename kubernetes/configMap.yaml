@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: upc-config
+data:
+  DB_HOST: "upc-database-svc"
+  DB_PORT: "3306"

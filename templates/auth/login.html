@@ -21,16 +21,26 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <!-- /.login-logo -->
+
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h6><i class="icon fas fa-ban"></i> Alert!</h6>
+            <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+
         <div class="card card-outline card-primary">
-            <div class="card-header text-center">
+            <!-- <div class="card-header text-center">
                 <a href="{% static 'assets/index2.html' %}" class="h1"><b>Admin</b>LTE</a>
-            </div>
+            </div> -->
             <div class="card-body">
                 <p class="login-box-msg">Connectez-vous pour démarrer votre session</p>
 
-                <form action="{% static 'assets/index3.html' %}" method="post">
+                <form method="post">
+                    {% csrf_token %}
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nom d'utilisateur">
+                        <input type="text" class="form-control" name="username" placeholder="Nom d'utilisateur">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -38,7 +48,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Mot de passe">
+                        <input type="password" class="form-control" name="password" placeholder="Mot de passe">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{% url 'create_author' %}">
+        <form method="post" action="{% url 'GestionRH:create_author' %}">
           {% csrf_token %}
           <div class="form-group">
             <label for="title">Nom de l'auteur</label>

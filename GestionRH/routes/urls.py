@@ -1,6 +1,8 @@
 from django.urls import path
 from ..views import views, book_views, author_views
 
+app_name = "GestionRH"
+
 urlpatterns = [
     path('', views.BASE, name='BASE'),
     path('books/', book_views.index, name='index_book'),

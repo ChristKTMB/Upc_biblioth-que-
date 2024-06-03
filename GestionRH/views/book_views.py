@@ -15,12 +15,12 @@ def create(request):
         author_id = request.POST.get('author')
         quantity = request.POST.get('quantity')
         book = Book.objects.create(title=title, author_id=author_id, quantity=quantity)
-        return redirect('index_book') 
+        return redirect('GestionRH:index_book') 
 
 def delete(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
-    return redirect('index_book')
+    return redirect('GestionRH:index_book')
 
 def edit(request, book_id):
     book = get_object_or_404(Book, id=book_id)
@@ -31,6 +31,6 @@ def edit(request, book_id):
         book.author = get_object_or_404(Author, id=author_id)
         book.save()
 
-        return redirect('index_book')
+        return redirect('GestionRH:index_book')
     
     return render(request, 'book/edit.html', {'book': book, 'authors': Author.objects.all()})

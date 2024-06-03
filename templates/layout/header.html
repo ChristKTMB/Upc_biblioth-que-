@@ -7,7 +7,13 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="{% url 'accounts:logout' %}" role="button">
+          <button type="button" class="btn btn-block btn-outline-dark btn-sm">Déconnexion</button>
+        </a>
+      </li>
+      {% endif %}
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>

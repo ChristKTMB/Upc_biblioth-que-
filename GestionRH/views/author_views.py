@@ -9,12 +9,12 @@ def create(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         Author.objects.create(name=name)
-        return redirect('index_author') 
+        return redirect('GestionRH:index_author') 
 
 def delete(request, author_id):
     author = get_object_or_404(Author, id=author_id)
     author.delete()
-    return redirect('index_author')
+    return redirect('GestionRH:index_author')
 
 def edit(request, author_id):
     author = get_object_or_404(Author, id=author_id)
@@ -22,6 +22,6 @@ def edit(request, author_id):
         author.name = request.POST.get('name')
         author.save()
 
-        return redirect('index_author')
+        return redirect('GestionRH:index_author')
     
     return render(request, 'author/edit.html', {'author': author })

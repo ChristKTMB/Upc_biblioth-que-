@@ -35,9 +35,9 @@
                     <td>{{ book.author.name }}</td>
                     <td>
                         <div class="btn-group btn-group-sm">
-                            <a href="{% url 'show_book' book.id %}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                            <a href="{% url 'edit_book' book.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                            <a href="{% url 'delete_book' book.id %}" class="btn btn-danger" onclick="return confirm('Etes-vous sur de vouloir supprimer ce livre ?')"><i class="fas fa-trash"></i></a>
+                            <a href="{% url 'GestionRH:show_book' book.id %}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                            <a href="{% url 'GestionRH:edit_book' book.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'GestionRH:delete_book' book.id %}" class="btn btn-danger" onclick="return confirm('Etes-vous sur de vouloir supprimer ce livre ?')"><i class="fas fa-trash"></i></a>
                         </div>
                     </td>
                 </tr>

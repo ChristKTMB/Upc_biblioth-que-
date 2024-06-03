@@ -9,7 +9,7 @@
     <ul class="navbar-nav ml-auto">
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="{% url 'accounts:logout' %}" role="button">
+        <a class="nav-link" href="{% url 'accounts:logout' %}" role="button">
           <button type="button" class="btn btn-block btn-outline-dark btn-sm">Déconnexion</button>
         </a>
       </li>

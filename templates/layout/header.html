@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -8,10 +9,23 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       {% if user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:logout' %}" role="button">
-          <button type="button" class="btn btn-block btn-outline-dark btn-sm">Déconnexion</button>
+      
+      <li class="nav-item dropdown show">
+        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+          <i class="fas fa-cog"></i>
         </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right show" style="left: inherit; right: 0px;">
+          <span class="dropdown-item dropdown-header">Connecter il y a 47 mins</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-address-card mr-2"></i> Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="{% url 'accounts:logout' %}" class="dropdown-item">
+            <i class="fas fa-power-off mr-2"></i> Déconnexion
+          </a>
+          <div class="dropdown-divider"></div>
+        </div>
       </li>
       {% endif %}
       <li class="nav-item">

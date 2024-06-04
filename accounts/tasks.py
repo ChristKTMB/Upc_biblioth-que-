@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
-import random, string
+import random, string, requests
 
 @shared_task
 def send_confirmation_email(email, username_send, random_password):
@@ -20,6 +20,17 @@ def send_confirmation_email(email, username_send, random_password):
         [email],
         html_message=message,
     )
+
+@shared_task
+def check_external_api(username, password):
+    api_url = settings.API_USER_HOST
+    api_data = {
+        "method": "login",
+        "username": username,
+        "password": password
+    }
+    response = requests.post(api_url, json=api_data)
+    return response.json() if response.status_code == 200 else None
 
 def generate_random_password(length=8):
     # Génère un mot de passe aléatoire

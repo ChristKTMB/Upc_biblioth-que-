@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'GestionRH',
-    'accounts'
+    'accounts',
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [
@@ -143,3 +144,19 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+# Api users
+API_USER_HOST = config('API_USER_HOST')
+
+# Celery configuration
+# URL du broker RabbitMQ
+CELERY_BROKER_URL = config('CELERY_BROKER_URL')
+
+# Backend pour stocker les résultats des tâches
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
+
+# Paramètres de Celery
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'

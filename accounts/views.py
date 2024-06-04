@@ -4,19 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings
 from .forms import LoginUser
-import requests, random, string
-
-from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
-from django.utils.html import strip_tags
-from django.template.loader import render_to_string
-
-# Create your views here.
-
-def generate_random_password(length=8):
-    # Génère un mot de passe aléatoire
-    characters = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(random.choice(characters) for i in range(length))
+from .tasks import send_confirmation_email, generate_random_password
+import requests
 
 def login_user(request):
     if request.method == 'POST':
@@ -29,7 +18,7 @@ def login_user(request):
                 login(request, user)
                 return redirect('GestionRH:BASE')
             else:
-                api_url = "http://localhost:5000/api"
+                api_url = settings.API_USER_HOST
                 api_data = {
                     "method": "login",
                     "username": username,
@@ -39,9 +28,15 @@ def login_user(request):
                 if response.status_code == 200:
                     api_response = response.json()
                     if 'user' in api_response:
+                        random_password = generate_random_password()
+                        
                         # Récupération des informations de l'utilisateur depuis la réponse API
                         utilisateur_externe = api_response['user']
-                        random_password = generate_random_password()
+                        email_send = utilisateur_externe.get('email')
+                        username_send = utilisateur_externe.get('username')
+
+                        # Envoyer l'email de confirmation de manière asynchrone
+                        send_confirmation_email.delay(email_send, username_send, random_password)
 
                         new_user = User.objects.create_user(
                             username=username,
@@ -51,22 +46,14 @@ def login_user(request):
                             password=random_password
                         )
 
-                        # Envoyer un email de confirmation
-                        subject = 'Confirmation de votre inscription'
-                        message = render_to_string('email/confirmation.html', {
-                            'user': new_user,
-                            'password': random_password,
-                        })
-                        plain_message = strip_tags(message)  # Version texte brut du message pour les clients de messagerie qui ne prennent pas en charge HTML
-                        send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [new_user.email], html_message=message)
-
                         messages.success(request, f'Votre compte a été créé. Un email avec un mot de passe temporaire vous a été envoyé sur {new_user.email}')
+                        
                         return redirect('accounts:login')
-                    
                 else:
-                    messages.error(request, 'Une erreur s\'est produite lors de la vérification des informations de connexion.')
+                    messages.error(request, 'Nom d’utilisateur ou mot de passe incorrect.')
     else:
         form = LoginUser()
+
     return render(request, 'auth/login.html', {'form': form})
 
 

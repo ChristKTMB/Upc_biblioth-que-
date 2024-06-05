@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from ..models import Book, Author
+from ..models import Author
 
 def index(request):
     authors = Author.objects.all().order_by('-id')

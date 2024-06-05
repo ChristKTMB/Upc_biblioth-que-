@@ -5,6 +5,8 @@ app_name = "GestionRH"
 
 urlpatterns = [
     path('', views.BASE, name='BASE'),
+    path('user/edit_profile/<int:user_id>', views.edit_profile, name='edit_profile'),
+    path('user/change_password/', views.change_password, name='change_password'),
     path('books/', book_views.index, name='index_book'),
     path('books/<int:book_id>/', book_views.show, name='show_book'),
     path('create-book/', book_views.create, name='create_book'),

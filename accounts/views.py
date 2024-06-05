@@ -2,10 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.conf import settings
 from .forms import LoginUser
 from .tasks import send_confirmation_email, generate_random_password, check_external_api
-import requests
 
 def login_user(request):
     if request.method == 'POST':
@@ -27,12 +25,12 @@ def login_user(request):
                 if api_response and 'user' in api_response:
                     random_password = generate_random_password()
                         
-                        # Récupération des informations de l'utilisateur depuis la réponse API
+                    # Récupération des informations de l'utilisateur depuis la réponse API
                     utilisateur_externe = api_response['user']
                     email_send = utilisateur_externe.get('email')
                     username_send = utilisateur_externe.get('username')
 
-                        # Envoyer l'email de confirmation de manière asynchrone
+                    # Envoyer l'email de confirmation de manière asynchrone
                     send_confirmation_email.delay(email_send, username_send, random_password)
 
                     new_user = User.objects.create_user(

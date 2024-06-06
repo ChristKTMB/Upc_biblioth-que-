@@ -1,6 +1,43 @@
 {% extends 'layout/base.html' %}
-
+<div class="col-md-6 mx-auto">
+    {% if messages %}
+    {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h6><i class="icon fas fa-check"></i> Alert!</h6>
+            <p>{{ message }}</p>
+        </div>
+        {% elif 'error' in message.tags %}
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h6><i class="icon fas fa-ban"></i> Alert!</h6>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
 {% block content %}
+<div class="col-md-6 mx-auto">
+    {% if messages %}
+    {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h6><i class="icon fas fa-check"></i> Alert!</h6>
+            <p>{{ message }}</p>
+        </div>
+        {% elif 'error' in message.tags %}
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h6><i class="icon fas fa-ban"></i> Alert!</h6>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
 <div class="container-fluid">
     <h1 class="text-black-50">Vous êtes connectés !</h1>
 </div>

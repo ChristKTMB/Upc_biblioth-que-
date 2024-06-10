@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: upc-app
-        image: christktmb/upc_bibliotheque:1.1
+        image: christktmb/upc_bibliotheque:latest
         ports:
         - containerPort: 8000
         env:
@@ -43,6 +43,46 @@ spec:
               configMapKeyRef:
                 name: upc-config
                 key: DB_PORT
+          - name: API_USER_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: API_USER_HOST
+          - name: EMAIL_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_HOST
+          - name: EMAIL_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_PORT
+          - name: EMAIL_USE_TLS
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_USE_TLS
+          - name: EMAIL_HOST_USER
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_HOST_USER
+          - name: EMAIL_HOST_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_HOST_PASSWORD
+          - name: CELERY_BROKER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: CELERY_BROKER_URL
+          - name: CELERY_RESULT_BACKEND
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: CELERY_RESULT_BACKEND
 ---
 apiVersion: v1
 kind: Service

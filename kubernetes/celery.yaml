@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upc-celery-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upc-celery
+  template:
+    metadata:
+      labels:
+        app: upc-celery
+    spec:
+      containers:
+      - name: upc-celery
+        image: christktmb/upc_bibliotheque:latest
+        command: ["celery", "-A", "RH", "worker", "--loglevel=info", "-P", "gevent"]
+        env:
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: upc-bibliotheque-database
+                key: MYSQL_DATABASE
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: upc-bibliotheque-database
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: upc-bibliotheque-database
+                key: MYSQL_PASSWORD
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: DB_PORT
+          - name: CELERY_BROKER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: CELERY_BROKER_URL
+          - name: CELERY_RESULT_BACKEND
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: CELERY_RESULT_BACKEND
+          - name: API_USER_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: API_USER_HOST
+          - name: EMAIL_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_HOST
+          - name: EMAIL_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_PORT
+          - name: EMAIL_USE_TLS
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_USE_TLS
+          - name: EMAIL_HOST_USER
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_HOST_USER
+          - name: EMAIL_HOST_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: upc-config
+                key: EMAIL_HOST_PASSWORD

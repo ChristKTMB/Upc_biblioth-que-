@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: upc_bibliotheque
+    image: christktmb/upc_bibliotheque:latest
     build:
       context: ..
       dockerfile: docker/Dockerfile
